@@ -1,12 +1,12 @@
-import xlrd
-import xlwt
-from xlwt import Workbook
+# import xlrd
+# import xlwt
+# from xlwt import Workbook
 from bs4 import BeautifulSoup
 import requests
 
-excel_workbook = xlrd.open_workbook('Company_info_1946.xls')
-# excel_worksheet_2020 = excel_workbook.sheet_by_index(0)
-excel_worksheet_2021 = excel_workbook.sheet_by_name('Company_info_1946')
+searchValueCompany= ['DIRECT','DIVISA PRECISION SA','DOLEZYCH GMBH &amp; CO. KG','DREHTAINER GMBH','DRONESHIELD','DST CONTROL AB','DUNARIT CORP','DYNAMIT NOBEL DEFENCE GMBH','ECHODYNE','ECONOMAT DES ARMÉES - EDA -','ECRIN SYSTEMS','ECS AG','EDDIFA MEDYA İLETIŞIM ORGANIZASYON SAN.TİC.LTD.ŞTİ.','EIDEL AS','EIKOSIM','ELAUL','ELDIS PARDUBICE, S.R.O.','ELISTAIR','ELYNXO GROUP','EM.TRONIC D.O.O.','EMCOR ENCLOSURES','EMPIRE PROTECTION','EMPL FAHRZEUGWERK GMBH','EMS CONCEPT SARL','ENGINEERED LAND SYSTEMS (ELS)','ENGINEERING CENTER STEYR GMBH &amp; CO KG','ENIDINE','ENSINGER FRANCE','ENTREMONDE POLYCOATERS LIMITED','EQUIPOS INDUSTRIALES DE MANUTENCIÓN S.A. (EINSA)','ESARIS INDUSTRIES','ESCRIBANO MECHANICAL &amp; ENGINEERING','ETS DUTHION ET CIE','EURO-COMPOSITES S.A.','EUROPLAST-NYCAST GMBH','EVERTZ','EVPU A.S.','EVPU DEFENCE A. S.','EXECDEFENSE USA - EDI-USA','EXPLOSIA A.S.','F.W.BREITHAUPT &amp; SOHN GMBH &amp; CO.KG','FAUN TRACKWAY LIMITED','FEMSAN ELEKTRIK MOTORLARI SANAYI VE TIC. A.Ş','FERONYL SA','FFDM TIVOLY','FIBRATECH SP.Z O.O.','FIBRECOAT GMBH','FIDUCIAL SECURITE','FINAL ADVANCED MATERIALS','FINGERMIND','FIXATION TECHNIQUE DE VIREUX','FJORD DEFENCE AS','FK BRNO ENGINEERING S.R.O.','FLEURET SA','FLEURY GF','FLEX FORCE ENTERPRISES','FONDIS ELECTRONIC','FORD GLOBAL FLEET SALES','FOREIGN TRADE CHAMBER OF BOSNIA AND HERZEGOVINA','FOX KNIVES - ORESTE FRATI SRL','FRANZ ACHLEITNER-FAHRZEUGBAU UND REIFENZENTRUM GMBH','FREEMINDTRONIC','FULCRUM CONCEPTS, LLC','FUTURA AUTOMATION PVT LTD','GALPERTI TECH FORGED PRODUCTS S.P.A.','GALVI-LINDA AS','GARANTI GIYIM KOMPOZIT TEKNOLOJILERI SANAYI VE TIC','GATE TECHNOLOGIES LTD.','GAUTHIER CONNECTIQUE','GBLS USA','GEMCO MOBILE SAFETY BV','GENERAL STARLIGHT COMPANY INC.','GERMANDRONES GMBH','GETELEC','GICAT','GLADIATOR TECHNOLOGIES','GLASSART S.A.','GLAUCUS APS','GLIDERS INDIA LIMITED','GOLDECK TEXTIL GMBH','GOODMILL SYSTEMS OY','GORIZIANE GROUP S.P.A.','GRAFFEUILLE','GRAFREN AB','GRANTA SOLUTIONS','GUMARNY ZUBRI','GUS GLASS + SAFETY GMBH &amp; CO. KG','GÜTH &amp; WOLF GMBH','H HENRIKSEN AS','HALYS SAS','HEBECO PLASTIC','HELLWIG &amp; LUNENSCHLOSS GMBH','HENDRICKSON COMMERCIAL VEHICLE SYSTEMS EUROPE GMBH','HERGES DETECTION GMBH','HETEK LIFT- UND HEBETECHNIK GMBH','HEVI OPTRONICS&nbsp;','HEYL CHEM.-PHARM. FABRIK GMBH &amp; CO KG','HIDROFIL MÜHENDISLIK A.Ş.','HIGH EYE B.V.','HIGH PRESSURE INSTRUMENTATION - HPI','HIRTENBERGER DEFENCE EUROPE GMBH','HITEC LUXEMBOURG S.A.','HOLOGATE GMBH','HOLOSUN TECHNOLOGIES INC','HORSTMAN GROUP','HOWA TRAMICO','HT DIVISION ZRT','HÜBNER GMBH &amp; CO. KG','HYMAG\'IN','HYPSUS MÜHENDISLIK VE SÜSPANSIYON SISTEMLERI ANONIM SIRKETI','I2K DEFENSE','ICOTEK SARL','ICPE SA','IGMAN D.D KONJIC','IMCO INDUSTRIES LTD','IMEAR','IMSAR LLC','INDIA OPTEL LIMITED','INERTIAL LABS, INC.','INFLATECH S.R.O.','INNALABS LIMITED','INNOVATION AGENCY LITHUANIA','INNOVATIVE MECHATRONIC SYSTEMS B.V.','INTEGRATED PROCUREMENT TECHNOLOGIES (IPT)','INTERACTIVE SOFTWARE SRL','INTERNATIONAL ARMORED GROUP']
+# searchValueCountry= ['CHINA','CHINA','CHINA','CHINA','CHINA']
+
 url = 'https://www.google.com/search'
 
 headers = {
@@ -14,26 +14,31 @@ headers = {
 	'Accept-Language': 'en-US,en;q=0.5',
 	'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82',
 }
-wb = Workbook()
+# wb = Workbook()
 
 # add_sheet is used to create sheet.
-sheet1 = wb.add_sheet('Sheet 1')
-for x in range(0, 1846, 1):
-    companyName = excel_worksheet_2021.cell_value(x, 0);
-    companyCountry = excel_worksheet_2021.cell_value(x, 1);
-    print(x)
+# sheet1 = wb.add_sheet('Sheet 1')
 
-    sheet1.write(x, 0, companyName)
-    sheet1.write(x, 1, companyCountry)
 
-    parameters = {'q': companyName+' '+companyCountry}
+for x in range(0, 126, 1):
+    companyName = searchValueCompany[x];
+    # companyCountry = searchValueCountry[x];
+    # print(x)
 
-    content = requests.get(url, headers=headers, params=parameters).text
-    soup = BeautifulSoup(content, 'html.parser')
+    # sheet1.write(x, 0, companyName)
+    # sheet1.write(x, 1, companyCountry)
 
-    search = soup.find(id='search')
-    first_link = search.find('a')
-    # print( companyName + ' ' + companyCountry + ' ' + first_link['href'])
-    sheet1.write(x, 2, first_link['href'])
+    parameters = {'q': companyName}
+    resp = "#";
+    try:
+        content = requests.get(url, headers=headers, params=parameters).text
+        soup = BeautifulSoup(content, 'html.parser')
 
-wb.save('Company_info_1946_update.xls')
+        search = soup.find(id='search')
+        first_link = search.find('a')
+        resp = first_link['href']
+        print(resp)
+    except:
+        print("#")
+#     sheet1.write(x, 2, resp)
+# wb.save('Company_info_1946_update.xls')
